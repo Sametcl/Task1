@@ -17,7 +17,15 @@ namespace Product_API.Services.Concretes
         public async Task<IEnumerable<ProductDto>> GetAllProductAsync()
         {
             var productList = await productRepository.GetAllAsync();
-            return productList.Select(p => new ProductDto { Id = p.Id, Name = p.Name, Price = p.Price });
+            return productList.Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                CreatedDate = p.CreatedDate,
+                Status = p.Status
+            });
 
         }
         public async Task<ProductDto> GetProductByIdAsync(Guid id)
@@ -27,7 +35,15 @@ namespace Product_API.Services.Concretes
             {
                 return null;
             }
-            return new ProductDto { Id = product.Id, Name = product.Name, Price = product.Price };
+            return new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                CreatedDate = product.CreatedDate,
+                Status = product.Status
+            };
         }
         public async Task CreateProductAsync(CreateProductDto createProductDto)
         {
@@ -37,6 +53,7 @@ namespace Product_API.Services.Concretes
                 Description = createProductDto.Description,
                 Price = createProductDto.Price
             };
+            await productRepository.CreateAsync(product);
 
         }
 
@@ -51,28 +68,34 @@ namespace Product_API.Services.Concretes
             return true;
         }
 
-        public async Task<ProductDto> UpdateProductAsync(UpdateProductDto updateProductDto,Guid id)
+        public async Task<ProductDto> UpdateProductAsync(UpdateProductDto updateProductDto, Guid id)
         {
-           
+
             var existingProduct = await productRepository.GetByIdAsync(id);
             if (existingProduct == null)
             {
                 return null;
             }
 
-           
+
             existingProduct.Name = updateProductDto.Name;
             existingProduct.Description = updateProductDto.Description;
             existingProduct.Price = updateProductDto.Price;
+            existingProduct.CreatedDate=existingProduct.CreatedDate;
+            existingProduct.UpdateDate = DateTime.UtcNow;
 
             await productRepository.UpdateAsync(existingProduct);
- 
+
             return new ProductDto
             {
                 Id = existingProduct.Id,
                 Name = existingProduct.Name,
-                Price = existingProduct.Price
+                Price = existingProduct.Price,
+                CreatedDate =existingProduct.CreatedDate,
+                UpdatedDate =existingProduct.UpdateDate,
             };
         }
+
+
     }
 }

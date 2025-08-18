@@ -14,6 +14,11 @@ namespace Product_API.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.Property(e => e.Price).HasPrecision(18, 2);
+            });
         }
     }
 }

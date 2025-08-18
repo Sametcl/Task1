@@ -17,7 +17,7 @@ namespace Product_API.Repositories.Concretes
         }
 
 
-        public async Task AddAsync(Product product)
+        public async Task CreateAsync(Product product)
         {
             await dbContext.AddAsync(product);
             await dbContext.SaveChangesAsync();
