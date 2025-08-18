@@ -26,11 +26,9 @@ namespace Product_API.Repositories.Concretes
         public async Task DeleteAsync(Guid id)
         {
             Product? product = await dbContext.Products.FindAsync(id);
-            if (product != null)
-            {
-                dbContext.Products.Remove(product);
-                await dbContext.SaveChangesAsync();
-            }
+            dbContext.Products.Remove(product);
+            await dbContext.SaveChangesAsync();
+
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
@@ -48,7 +46,7 @@ namespace Product_API.Repositories.Concretes
             //Bir modelin tum kisimlarini update edecegimiz icin bu metodu kullandim .
             //Ancak belirli bir kismi ornegin(Name ve description)
             //degisecekse bunun icin repository yazmamiza gerek yok service kisminda halledilebilir.
-            dbContext.Products.Update(product); 
+            dbContext.Products.Update(product);
             await dbContext.SaveChangesAsync();
         }
     }

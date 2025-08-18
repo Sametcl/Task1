@@ -24,7 +24,8 @@ namespace Product_API.Services.Concretes
                 Description = p.Description,
                 Price = p.Price,
                 CreatedDate = p.CreatedDate,
-                Status = p.Status
+                Status = p.Status,
+                UpdatedDate =p.UpdateDate
             });
 
         }
@@ -77,11 +78,11 @@ namespace Product_API.Services.Concretes
                 return null;
             }
 
-
             existingProduct.Name = updateProductDto.Name;
             existingProduct.Description = updateProductDto.Description;
             existingProduct.Price = updateProductDto.Price;
             existingProduct.CreatedDate=existingProduct.CreatedDate;
+            existingProduct.Status = updateProductDto.Status;
             existingProduct.UpdateDate = DateTime.UtcNow;
 
             await productRepository.UpdateAsync(existingProduct);
