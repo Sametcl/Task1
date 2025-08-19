@@ -21,6 +21,7 @@ namespace Product_API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProduct()
         {
+            // throw new Exception("Bu, global handler'ı test etmek için oluşturulmuş kasıtlı bir hatadır!");
             var productList = await productService.GetAllProductAsync();
             return Ok(productList);
         }
@@ -43,10 +44,7 @@ namespace Product_API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (createProductDto.Price < 0)
-            {
-                return BadRequest("Fiyat 0 dan buyuk bir deger olmalidir ");
-            }
+            
             await productService.CreateProductAsync(createProductDto);
             return Ok("Urun basarili bir sekilde eklenmistir");
 
@@ -58,7 +56,7 @@ namespace Product_API.Controllers
             var result = await productService.DeleteProductAsync(id);
             if (!result)
             {
-                return NotFound();
+                return NotFound("Silinecek urun bulunamadi");
             }
             return NoContent();
         }
@@ -75,7 +73,7 @@ namespace Product_API.Controllers
 
             if (updatedProduct == null)
             {
-                return NotFound();
+                return NotFound("Guncellenecek urun bulunamadi");
             }
 
             return NoContent();

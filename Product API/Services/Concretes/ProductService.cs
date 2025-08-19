@@ -48,6 +48,10 @@ namespace Product_API.Services.Concretes
         }
         public async Task CreateProductAsync(CreateProductDto createProductDto)
         {
+            if (createProductDto.Price <= 0)
+            {
+                throw new ArgumentException("Ürün fiyatı negatif ve 0 olamaz.");
+            }
             var product = new Product
             {
                 Name = createProductDto.Name,
@@ -76,6 +80,10 @@ namespace Product_API.Services.Concretes
             if (existingProduct == null)
             {
                 return null;
+            }
+            if (updateProductDto.Price <= 0)
+            {
+                throw new ArgumentException("Ürün fiyatı negatif ve 0 olamaz.");
             }
 
             existingProduct.Name = updateProductDto.Name;
